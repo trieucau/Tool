@@ -1,0 +1,28 @@
+# ==========================================
+# CẤU HÌNH BỎ QUA CÁC FILE KHÔNG CẦN THIẾT
+# KHI ĐẨY LÊN GITHUB
+# ==========================================
+
+# 1. Các thư mục chứa dữ liệu tạm và file sinh ra lúc chạy app
+output/
+temp/
+logs/
+
+# 2. File cấu hình chứa key bảo mật API (KHÔNG BAO GIỜ ĐƯA LÊN GITHUB)
+.env
+
+# 3. Thư mục môi trường ảo Python
+venv/
+env/
+.venv/
+
+# 4. Các file Cache tự sinh của Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 5. Các file cấu hình rác của Hệ điều hành / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
