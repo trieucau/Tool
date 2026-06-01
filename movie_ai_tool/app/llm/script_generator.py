@@ -122,7 +122,7 @@ def generate_script(
 
     lang_note = ""
     if language == "vi":
-        lang_note = "\n\nIMPORTANT: Write the entire script in Vietnamese (Tiếng Việt)."
+        lang_note = "\n\nIMPORTANT: Write the entire script in Vietnamese (Tiếng Việt). Use natural, conversational Vietnamese phrasing that sounds like a native speaker telling a story (văn phong ngôn ngữ nói tự nhiên, đời thường, mượt mà)."
 
     user_prompt = _USER_PROMPT_TEMPLATE.format(
         title=movie_title,
