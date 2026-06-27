@@ -301,7 +301,7 @@ class MovieAIApp(ctk.CTk):
         def fetch():
             try:
                 import yt_dlp
-                ydl_opts = {'quiet': True, 'no_warnings': True}
+                ydl_opts = {'quiet': True, 'no_warnings': True, 'noplaylist': True}
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     info = ydl.extract_info(url, download=False)
                     duration = info.get('duration', 0)
