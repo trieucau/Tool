@@ -13,7 +13,7 @@ from app.config import config
 
 logger = get_logger(__name__)
 
-TTS_ENGINE = Literal["edge", "elevenlabs"]
+TTS_ENGINE = Literal["edge", "elevenlabs", "gtts"]
 
 
 async def _generate_edge_tts(
@@ -41,6 +41,17 @@ async def _generate_edge_tts(
                 await asyncio.sleep(wait)
             else:
                 raise
+
+
+def _generate_gtts(text: str, output_path: Path) -> None:
+    """Generate TTS audio using Google Translate TTS (Chị Google)."""
+    try:
+        from gtts import gTTS
+    except ImportError:
+        raise ImportError("gTTS not installed. Run: pip install gTTS")
+    
+    tts = gTTS(text=text, lang="vi", slow=False)
+    tts.save(str(output_path))
 
 
 def generate_voiceover(
@@ -73,6 +84,8 @@ def generate_voiceover(
 
     if engine == "elevenlabs" and config.api.elevenlabs_api_key:
         _generate_elevenlabs(text, output_path)
+    elif engine == "gtts":
+        _generate_gtts(text, output_path)
     else:
         # Default to Edge TTS
         asyncio.run(_generate_edge_tts(

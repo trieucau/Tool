@@ -79,7 +79,8 @@ class WhisperConfig:
 
 @dataclass
 class TTSConfig:
-    engine: str = field(default_factory=lambda: os.getenv("TTS_ENGINE", "edge"))  # edge | elevenlabs
+    engine: str = field(default_factory=lambda: os.getenv("TTS_ENGINE", "edge"))  # edge | elevenlabs | gtts
+    # Free Edge TTS Voices: "vi-VN-HoaiMyNeural" (Female), "vi-VN-NamMinhNeural" (Male)
     edge_voice: str = field(default_factory=lambda: os.getenv("EDGE_VOICE", "vi-VN-HoaiMyNeural"))
     rate: str = field(default_factory=lambda: os.getenv("EDGE_TTS_RATE", "+0%"))
     volume: str = "+0%"
