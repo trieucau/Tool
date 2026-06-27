@@ -19,23 +19,9 @@ logger = get_logger(__name__)
 
 import shutil
 
-def _get_ytdlp_executable() -> str:
-    """Return the full path to yt-dlp executable.
-
-    Checks the same directory as the Python executable, the adjacent Scripts folder,
-    and finally falls back to searching the system PATH.
-    """
-    scripts_dir = Path(sys.executable).parent
-    scripts_folder = scripts_dir / "Scripts"
-    for folder in (scripts_dir, scripts_folder):
-        for name in ("yt-dlp.exe", "yt-dlp"):
-            candidate = folder / name
-            if candidate.exists():
-                return str(candidate)
-    which_path = shutil.which("yt-dlp")
-    if which_path:
-        return which_path
-    return "yt-dlp"
+def _get_ytdlp_cmd() -> list:
+    """Return the python command to run yt-dlp module."""
+    return [sys.executable, "-m", "yt_dlp"]
 
 
 @dataclass
@@ -101,9 +87,8 @@ def download_video(
         progress_callback(0.0, f"Downloading: {title}")
 
     # Build yt-dlp command
-    ytdlp = _get_ytdlp_executable()
-    cmd = [
-        ytdlp,
+    ytdlp_cmd = _get_ytdlp_cmd()
+    cmd = ytdlp_cmd + [
         "--ffmpeg-location", find_ffmpeg(),
         "--format", "bestvideo[ext=mp4][height<=1080]+bestaudio[ext=m4a]/best[ext=mp4]/best",
         "--merge-output-format", "mp4",
@@ -186,8 +171,8 @@ def _get_video_info(url: str) -> dict:
     Returns:
         Dictionary of video metadata.
     """
-    ytdlp = _get_ytdlp_executable()
-    cmd = [ytdlp, "--dump-json", "--no-playlist", url]
+    ytdlp_cmd = _get_ytdlp_cmd()
+    cmd = ytdlp_cmd + ["--dump-json", "--no-playlist", url]
 
     result = subprocess.run(
         cmd,
